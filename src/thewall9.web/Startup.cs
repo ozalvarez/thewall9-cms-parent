@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using thewall9.web.parent;
+using thewall9.web.parent.Middlewares;
 
 namespace thewall9.web
 {
@@ -58,12 +59,14 @@ namespace thewall9.web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error");
             }
 
             app.UseStaticFiles();
 
             app.UseSession();
+
+            app.UseMiddleware<IgnoreRouteMiddleware>();
 
             app.UseMyMvc();
         }

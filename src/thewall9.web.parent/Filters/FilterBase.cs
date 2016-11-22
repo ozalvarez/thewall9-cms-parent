@@ -24,7 +24,7 @@ namespace thewall9.web.parent.Filters
             _appSettings = appSettings.Value;
             _app = app;
 
-            _SiteService = new SiteBLL(appSettings);
+            _SiteService = new SiteBLL(appSettings, app);
         }
 
         private string GetCultureISOLanguageName(HttpRequest Request, string DefaultCulture)

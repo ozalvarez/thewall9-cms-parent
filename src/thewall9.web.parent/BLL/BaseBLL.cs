@@ -13,10 +13,12 @@ namespace thewall9.web.parent.BLL
 
     public class BaseBLL
     {
-        private readonly AppSettings _appSettings;
-        public BaseBLL(IOptions<AppSettings> appSettings)
+        protected readonly AppSettings _appSettings;
+        protected readonly APP _app;
+        public BaseBLL(IOptions<AppSettings> appSettings, APP app)
         {
             _appSettings = appSettings.Value;
+            _app = app;
         }
         private HttpClient MyWebClient
         {

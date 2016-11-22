@@ -20,16 +20,19 @@ namespace thewall9.web.parent
             {
                 options.Filters.Add(typeof(FilterBase));
             })
-                .AddApplicationPart(typeof(HomeController).GetTypeInfo().Assembly)
+                .AddApplicationPart(typeof(PageController).GetTypeInfo().Assembly)
                 .AddControllersAsServices();
         }
         public static void UseMyMvc(this IApplicationBuilder app)
         {
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("error", "error", new { Controller = "Page", action = "Error" });
+                routes.MapRoute("default", "{FriendlyUrl?}", new { Controller = "Page", action = "Index" });
+                routes.MapRoute("default2", "{FriendlyUrl1}/{FriendlyUrl2?}", new { Controller = "Page", action = "Index2" });
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

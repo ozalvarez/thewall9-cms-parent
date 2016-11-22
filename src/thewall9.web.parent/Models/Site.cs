@@ -156,4 +156,99 @@ namespace thewall9.web.parent.Models
         public string Rss { get; set; }
         public string YoutubeChannel { get; set; }
     }
+    public class BlogListWeb
+    {
+        public int Pages { get; set; }
+        public List<BlogPostWeb> Data { get; set; }
+        public List<BlogCategoryCultureBase> Categories { get; set; }
+        public List<BlogTagBase> Tags { get; set; }
+    }
+    public class BlogPostWeb : BlogPostCultureBase
+    {
+        public string FeatureImageUrl { get; set; }
+        public int SiteID { get; set; }
+        public List<BlogCategoryCultureBase> AllCategories { get; set; }
+        public List<BlogTagBase> AllTags { get; set; }
+        public List<BlogTagBase> Tags { get; set; }
+        public List<BlogCategoryCultureBase> Categories { get; set; }
+    }
+    public class BlogCategoryCultureBase
+    {
+        public int BlogCategoryID { get; set; }
+        public int CultureID { get; set; }
+        public string BlogCategoryName { get; set; }
+        public string FriendlyUrl { get; set; }
+    }
+    public class BlogTagBase
+    {
+        public int BlogTagID { get; set; }
+        public string BlogTagName { get; set; }
+    }
+    public class BlogPostCultureBase
+    {
+        public int BlogPostID { get; set; }
+        public int CultureID { get; set; }
+        public bool Published { get; set; }
+        public string Content { get; set; }
+        public string ContentPreview { get; set; }
+        public string FriendlyUrl { get; set; }
+        public string Title { get; set; }
+        public DateTime DateCreated { get; set; }
+    }
+    public class PageWeb
+    {
+        public PageCultureBinding Page { get; set; }
+        public ContentBindingList Content { get; set; }
+    }
+    public class SiteMapModel
+    {
+        public bool Ecommerce { get; set; }
+
+        public List<PageCultureBinding> Pages { get; set; }
+        public List<ProductWeb> Products { get; set; }
+        public List<CategoryWeb> Categories { get; set; }
+
+        public bool Blog { get; set; }
+        public List<BlogPostWeb> Posts { get; set; }
+        public List<BlogCategoryCultureBase> BlogCategories { get; set; }
+        public List<BlogTagBase> BlogTags { get; set; }
+    }
+    public class ProductsWeb
+    {
+        public List<ProductWeb> Products { get; set; }
+        public List<CategoryWeb> Categories { get; set; }
+        public int NumberPages { get; set; }
+        public int CultureID { get; set; }
+        public string CultureName { get; set; }
+        public CategoryWeb Category { get; set; }
+    }
+    public class ProductWeb : ProductCultureBase
+    {
+        public int ProductID { get; set; }
+        public double Price { get; set; }
+        public double PriceOld { get; set; }
+        public string CultureName { get; set; }
+        public List<ProductGalleryBinding> Galleries { get; set; }
+        public bool New { get; set; }
+        public bool Featured { get; set; }
+        public bool Sale { get; set; }
+    }
+    public class ProductCultureBase
+    {
+        public string ProductName { get; set; }
+        public string Description { get; set; }
+        public string AdditionalInformation { get; set; }
+        public string IconPath { get; set; }
+        public string FriendlyUrl { get; set; }
+    }
+    public class ProductGalleryBinding : ProductGalleryBase
+    {
+
+    }
+    public class ProductGalleryBase
+    {
+        public int ProductGalleryID { get; set; }
+        public int ProductID { get; set; }
+        public string PhotoPath { get; set; }
+    }
 }

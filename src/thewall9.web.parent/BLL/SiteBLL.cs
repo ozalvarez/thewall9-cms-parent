@@ -11,7 +11,7 @@ namespace thewall9.web.parent.BLL
 {
     public class SiteBLL : BaseBLL
     {
-        public SiteBLL(IOptions<AppSettings> appSettings) : base(appSettings)
+        public SiteBLL(IOptions<AppSettings> appSettings, APP app) : base(appSettings, app)
         {
         }
 
