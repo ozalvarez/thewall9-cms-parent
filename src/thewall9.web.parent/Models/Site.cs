@@ -139,4 +139,21 @@ namespace thewall9.web.parent.Models
         public string CategoryDescription { get; set; }
         public string FriendlyUrl { get; set; }
     }
+    public class CultureRoutes : CultureBase
+    {
+        public string FriendlyUrl { get; set; }
+    }
+    public class CultureBase
+    {
+        public int CultureID { get; set; }
+        public int SiteID { get; set; }
+        public string Name { get; set; }
+        public string Twitter { get; set; }
+        public string Facebook { get; set; }
+        public string GPlus { get; set; }
+        public string Tumblr { get; set; }
+        public string Instagram { get; set; }
+        public string Rss { get; set; }
+        public string YoutubeChannel { get; set; }
+    }
 }

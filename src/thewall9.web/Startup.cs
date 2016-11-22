@@ -28,6 +28,8 @@ namespace thewall9.web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<APP>();
 
             // Add framework services.
             services.AddMyMvc();

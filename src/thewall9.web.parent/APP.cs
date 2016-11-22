@@ -2,118 +2,97 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+using thewall9.web.parent.Models;
 
 namespace thewall9.web.parent
 {
     public class APP
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private ISession Session => _httpContextAccessor.HttpContext.Session;
-
-
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
+        private IDictionary<object, object> _items => _httpContextAccessor.HttpContext.Items;
+        private IRequestCookieCollection _cookiesRequest => _httpContextAccessor.HttpContext.Request.Cookies;
+        private IResponseCookies _cookiesResponse => _httpContextAccessor.HttpContext.Response.Cookies;
         public APP(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public string _Referer
+        public string Referer
         {
             get
             {
-                return Session.GetString("Referer");
+                return _session.GetString("Referer");
             }
             set
             {
-                Session.SetString("Referer", value);
+                _session.SetString("Referer", value);
             }
         }
-        //public static SiteFullBinding _Site
-        //{
-        //    get
-        //    {
-        //        return HttpContext.Current.Session["Site"] as SiteFullBinding;
-        //    }
-        //    set
-        //    {
-        //        HttpContext.Current.Session["Site"] = value;
-        //    }
-        //}
-        //public static int _SiteID
-        //{
-        //    get
-        //    {
-        //        return Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["SiteID"]);
-        //    }
-        //}
-        //public static string _API_URL
-        //{
-        //    get
-        //    {
-        //        return System.Configuration.ConfigurationManager.AppSettings["API_URL"];
-        //    }
-        //}
-        //public static string _CurrentLang
-        //{
-        //    get
-        //    {
-        //        return HttpContext.Current.Items["CurrentLang"] as string;
-        //    }
-        //    set
-        //    {
-        //        HttpContext.Current.Items["CurrentLang"] = value;
-        //    }
-        //}
-        //public static string _CurrentFriendlyUrl
-        //{
-        //    get
-        //    {
-        //        return HttpContext.Current.Items["CurrentFriendlyUrl"] as string;
-        //    }
-        //    set
-        //    {
-        //        HttpContext.Current.Items["CurrentFriendlyUrl"] = value;
-        //    }
-        //}
-        //public static List<CultureRoutes> _Langs
-        //{
-        //    get
-        //    {
-        //        return HttpContext.Current.Session["Langs"] as List<CultureRoutes>;
-        //    }
-        //    set
-        //    {
-        //        HttpContext.Current.Session["Langs"] = value;
-        //    }
-        //}
-        //public static int _CurrentCurrencyID
-        //{
-        //    get
-        //    {
-        //        try
-        //        {
-        //            var _Value = (int)HttpContext.Current.Session["_CurrentCurrencyID"];
-        //            if (_Value != 0)
-        //                return _Value;
-        //            else
-        //            {
-        //                var _Cookie = HttpContext.Current.Request.Cookies["_CurrentCurrencyID"];
-        //                HttpContext.Current.Session["_CurrentCurrencyID"] = Convert.ToInt32(_Cookie.Value);
-        //                return Convert.ToInt32(_Cookie.Value);
-        //            }
-        //        }
-        //        catch (Exception)
-        //        {
-        //            return 0;
-        //        }
-        //    }
-        //    set
-        //    {
-        //        var _Cookie = new HttpCookie("_CurrentCurrencyID", value.ToString());
-        //        _Cookie.Expires = DateTime.Now.AddYears(1);
-        //        HttpContext.Current.Request.Cookies.Add(_Cookie);
-        //        HttpContext.Current.Session["_CurrentCurrencyID"] = value;
-        //    }
-        //}
+        public SiteFullBinding Site
+        {
+            get
+            {
+                return _session.GetObjectFromJson<SiteFullBinding>("Site");
+            }
+            set
+            {
+                _session.SetObjectAsJson("Site", value);
+            }
+        }
+
+        public string CurrentLang
+        {
+            get
+            {
+                return _items["CurrentLang"] as string;
+            }
+            set
+            {
+                _items["CurrentLang"] = value;
+            }
+        }
+        public string CurrentFriendlyUrl
+        {
+            get
+            {
+                return _items["CurrentFriendlyUrl"] as string;
+            }
+            set
+            {
+                _items["CurrentFriendlyUrl"] = value;
+            }
+        }
+        public List<CultureRoutes> Langs
+        {
+            get
+            {
+                return _session.GetObjectFromJson<List<CultureRoutes>>("Langs");
+            }
+            set
+            {
+                _session.SetObjectAsJson("Langs", value);
+            }
+        }
+        public int CurrentCurrencyID
+        {
+            get
+            {
+                var _Value = _session.GetInt32("CurrentCurrencyID");
+                if (_Value != null)
+                    return (int)_Value;
+                else
+                {
+                    var _Cookie = Convert.ToInt32(_cookiesRequest["CurrentCurrencyID"]);
+                    _session.SetInt32("CurrentCurrencyID", _Cookie);
+                    return _Cookie;
+                }
+            }
+            set
+            {
+                _session.SetInt32("_CurrentCurrencyID",value);
+                _cookiesResponse.Append("_CurrentCurrencyID", value.ToString());
+            }
+        }
     }
 }
